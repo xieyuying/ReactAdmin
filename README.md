@@ -1,68 +1,233 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<p align="center">
+    <a href="https://github.com/yiisoft" target="_blank">
+        <img src="https://avatars0.githubusercontent.com/u/993323" height="100px">
+    </a>
+    <h1 align="center">Yii 2 Basic Project Template</h1>
+    <br>
+</p>
 
-## Available Scripts
+Yii 2 Basic Project Template is a skeleton [Yii 2](http://www.yiiframework.com/) application best for
+rapidly creating small projects.
 
-In the project directory, you can run:
+The template contains the basic features including user login/logout and a contact page.
+It includes all commonly used configurations that would allow you to focus on adding new
+features to your application.
 
-### `npm start`
+[![Latest Stable Version](https://img.shields.io/packagist/v/yiisoft/yii2-app-basic.svg)](https://packagist.org/packages/yiisoft/yii2-app-basic)
+[![Total Downloads](https://img.shields.io/packagist/dt/yiisoft/yii2-app-basic.svg)](https://packagist.org/packages/yiisoft/yii2-app-basic)
+[![Build Status](https://travis-ci.com/yiisoft/yii2-app-basic.svg?branch=master)](https://travis-ci.com/yiisoft/yii2-app-basic)
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+DIRECTORY STRUCTURE
+-------------------
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+      assets/             contains assets definition
+      commands/           contains console commands (controllers)
+      config/             contains application configurations
+      controllers/        contains Web controller classes
+      mail/               contains view files for e-mails
+      models/             contains model classes
+      runtime/            contains files generated during runtime
+      tests/              contains various tests for the basic application
+      vendor/             contains dependent 3rd-party packages
+      views/              contains view files for the Web application
+      web/                contains the entry script and Web resources
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+REQUIREMENTS
+------------
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+The minimum requirement by this project template that your Web server supports PHP 5.6.0.
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+INSTALLATION
+------------
 
-### `npm run eject`
+### Install via Composer
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+If you do not have [Composer](http://getcomposer.org/), you may install it by following the instructions
+at [getcomposer.org](http://getcomposer.org/doc/00-intro.md#installation-nix).
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+You can then install this project template using the following command:
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+~~~
+composer create-project --prefer-dist yiisoft/yii2-app-basic basic
+~~~
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Now you should be able to access the application through the following URL, assuming `basic` is the directory
+directly under the Web root.
 
-## Learn More
+~~~
+http://localhost/basic/web/
+~~~
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Install from an Archive File
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Extract the archive file downloaded from [yiiframework.com](http://www.yiiframework.com/download/) to
+a directory named `basic` that is directly under the Web root.
 
-### Code Splitting
+Set cookie validation key in `config/web.php` file to some random secret string:
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+```php
+'request' => [
+    // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
+    'cookieValidationKey' => '<secret random string goes here>',
+],
+```
 
-### Analyzing the Bundle Size
+You can then access the application through the following URL:
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+~~~
+http://localhost/basic/web/
+~~~
 
-### Making a Progressive Web App
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+### Install with Docker
 
-### Advanced Configuration
+Update your vendor packages
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+    docker-compose run --rm php composer update --prefer-dist
+    
+Run the installation triggers (creating cookie validation code)
 
-### Deployment
+    docker-compose run --rm php composer install    
+    
+Start the container
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+    docker-compose up -d
+    
+You can then access the application through the following URL:
 
-### `npm run build` fails to minify
+    http://127.0.0.1:8000
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+**NOTES:** 
+- Minimum required Docker engine version `17.04` for development (see [Performance tuning for volume mounts](https://docs.docker.com/docker-for-mac/osxfs-caching/))
+- The default configuration uses a host-volume in your home directory `.docker-composer` for composer caches
+
+
+CONFIGURATION
+-------------
+
+### Database
+
+Edit the file `config/db.php` with real data, for example:
+
+```php
+return [
+    'class' => 'yii\db\Connection',
+    'dsn' => 'mysql:host=localhost;dbname=yii2basic',
+    'username' => 'root',
+    'password' => '1234',
+    'charset' => 'utf8',
+];
+```
+
+**NOTES:**
+- Yii won't create the database for you, this has to be done manually before you can access it.
+- Check and edit the other files in the `config/` directory to customize your application as required.
+- Refer to the README in the `tests` directory for information specific to basic application tests.
+
+
+TESTING
+-------
+
+Tests are located in `tests` directory. They are developed with [Codeception PHP Testing Framework](http://codeception.com/).
+By default there are 3 test suites:
+
+- `unit`
+- `functional`
+- `acceptance`
+
+Tests can be executed by running
+
+```
+vendor/bin/codecept run
+```
+
+The command above will execute unit and functional tests. Unit tests are testing the system components, while functional
+tests are for testing user interaction. Acceptance tests are disabled by default as they require additional setup since
+they perform testing in real browser. 
+
+
+### Running  acceptance tests
+
+To execute acceptance tests do the following:  
+
+1. Rename `tests/acceptance.suite.yml.example` to `tests/acceptance.suite.yml` to enable suite configuration
+
+2. Replace `codeception/base` package in `composer.json` with `codeception/codeception` to install full featured
+   version of Codeception
+
+3. Update dependencies with Composer 
+
+    ```
+    composer update  
+    ```
+
+4. Download [Selenium Server](http://www.seleniumhq.org/download/) and launch it:
+
+    ```
+    java -jar ~/selenium-server-standalone-x.xx.x.jar
+    ```
+
+    In case of using Selenium Server 3.0 with Firefox browser since v48 or Google Chrome since v53 you must download [GeckoDriver](https://github.com/mozilla/geckodriver/releases) or [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/downloads) and launch Selenium with it:
+
+    ```
+    # for Firefox
+    java -jar -Dwebdriver.gecko.driver=~/geckodriver ~/selenium-server-standalone-3.xx.x.jar
+    
+    # for Google Chrome
+    java -jar -Dwebdriver.chrome.driver=~/chromedriver ~/selenium-server-standalone-3.xx.x.jar
+    ``` 
+    
+    As an alternative way you can use already configured Docker container with older versions of Selenium and Firefox:
+    
+    ```
+    docker run --net=host selenium/standalone-firefox:2.53.0
+    ```
+
+5. (Optional) Create `yii2_basic_tests` database and update it by applying migrations if you have them.
+
+   ```
+   tests/bin/yii migrate
+   ```
+
+   The database configuration can be found at `config/test_db.php`.
+
+
+6. Start web server:
+
+    ```
+    tests/bin/yii serve
+    ```
+
+7. Now you can run all available tests
+
+   ```
+   # run all available tests
+   vendor/bin/codecept run
+
+   # run acceptance tests
+   vendor/bin/codecept run acceptance
+
+   # run only unit and functional tests
+   vendor/bin/codecept run unit,functional
+   ```
+
+### Code coverage support
+
+By default, code coverage is disabled in `codeception.yml` configuration file, you should uncomment needed rows to be able
+to collect code coverage. You can run your tests and collect coverage with the following command:
+
+```
+#collect coverage for all tests
+vendor/bin/codecept run -- --coverage-html --coverage-xml
+
+#collect coverage only for unit tests
+vendor/bin/codecept run unit -- --coverage-html --coverage-xml
+
+#collect coverage for unit and functional tests
+vendor/bin/codecept run functional,unit -- --coverage-html --coverage-xml
+```
+
+You can see code coverage output under the `tests/_output` directory.
